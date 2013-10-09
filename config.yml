@@ -1,0 +1,5 @@
+#Default Configuration File for JoshCraft
+Recipe:
+  Leather:
+    Enabled: true
+    FleshForLeather: 4
