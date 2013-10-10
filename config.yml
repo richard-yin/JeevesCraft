@@ -1,4 +1,4 @@
-#Default Configuration File for JoshCraft
+#Default Configuration File for JoshCraft 1.2
 Recipe:
   Leather:
     Enabled: true
@@ -8,3 +8,4 @@ Recipe:
   	Gold: true
   	Diamond: true
   Saddle: true
+  Nametag: true

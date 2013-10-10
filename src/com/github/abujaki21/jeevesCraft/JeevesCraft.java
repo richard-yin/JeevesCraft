@@ -7,7 +7,7 @@
  * 															*
  * website: https://github.com/abujaki21/minestock			*
  * 															*
- * Version: 1.1												*
+ * Version: 1.2												*
  * 															*
  * This software is presented AS IS and without warranty	*
  * of any kind. I will not be held responsible for			*
@@ -95,7 +95,7 @@ public final class JeevesCraft extends JavaPlugin{
 			server.addRecipe(HADarmor);
 			logger.info("Added recipe: Horse Armor (Diamond)");
 		}
-		
+
 		//Recipe for Saddle
 		if(config.getBoolean("Recipe.Saddle")){
 			ShapedRecipe saddle = new ShapedRecipe(new ItemStack(Material.SADDLE));
@@ -105,6 +105,16 @@ public final class JeevesCraft extends JavaPlugin{
 			saddle.setIngredient('I', Material.IRON_INGOT);
 			server.addRecipe(saddle);
 			logger.info("Added recipe: Saddle");
+		}
+		
+		//Recipe for Nametag
+		if(config.getBoolean("Recipe.Nametag")){
+			ShapelessRecipe label = new ShapelessRecipe(new ItemStack(Material.NAME_TAG));
+			label.addIngredient(Material.STRING);
+			label.addIngredient(Material.PAPER);
+			label.addIngredient(Material.INK_SACK);
+			server.addRecipe(label);
+			logger.info("Added recipe: Nametag");
 		}
 	}
 }
