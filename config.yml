@@ -3,3 +3,8 @@ Recipe:
   Leather:
     Enabled: true
     FleshForLeather: 4
+  HorseArmor:
+  	Iron: true
+  	Gold: true
+  	Diamond: true
+  Saddle: true
