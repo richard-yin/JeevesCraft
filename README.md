@@ -19,4 +19,5 @@ Functions:
 
 Known Issues:
 -------------
- - Crafting grid does not clear immediately when shift + Click crafting
+ - Crafting grid does not clear immediately when shift + Click crafting leather
+ - Armor, Saddles and Nametags not yet tested.
