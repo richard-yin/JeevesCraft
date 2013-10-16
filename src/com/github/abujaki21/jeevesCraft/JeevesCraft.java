@@ -116,5 +116,14 @@ public final class JeevesCraft extends JavaPlugin{
 			server.addRecipe(label);
 			logger.info("Added recipe: Nametag");
 		}
+		
+		/*if(config.getBoolean("Recipe.GiantZombieEgg")){
+			ShapedRecipe gegg = new ShapedRecipe(new ItemStack(Material.MONSTER_EGG, 1, (short) 53));
+			gegg.shape("DaD","bEb","DxD");
+			gegg.setIngredient('D', Material.DIAMOND_BLOCK);
+			gegg.setIngredient('E', Material.EGG);
+			gegg.setIngredient('a', Material.ROTTEN_FLESH);
+			
+		}*/
 	}
 }
