@@ -22,7 +22,13 @@ import java.util.logging.Logger;
 
 import org.bukkit.Material;
 import org.bukkit.Server;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
@@ -56,6 +62,58 @@ public final class JeevesCraft extends JavaPlugin{
 		//Not necessary yet as there is no way to change yet it in the plugin
 		//this.saveConfig();
 		logger.info("Goodnight");
+	}
+	
+	@EventHandler
+	public void onPlayerInteract(PlayerInteractEvent event){
+		if(event.getAction() == Action.RIGHT_CLICK_BLOCK){
+			Block b = event.getClickedBlock();
+			if(b.getType() == Material.BOOKSHELF){
+				
+			}
+		}
+	}
+	
+	public void onPlayerFishing(PlayerFishEvent event){
+		if(!(event.getCaught() == null)){
+			event.setCancelled(true);
+			double num = (Math.random()*100);
+			ItemStack fishy = new ItemStack(Material.RAW_FISH);
+			int expdrop = 2;
+			if(num <= 10){
+				expdrop = 1;
+			}else if(num <= 4){
+				//Nothing, this is our default
+			}else if(num <=50){
+				expdrop = 3;
+			}else if(num <=55){
+				fishy = new ItemStack(Material.LEATHER_BOOTS,1);
+				fishy.setDurability((short)(65 - (num % 5)));
+			}else if(num < 60){
+				fishy = new ItemStack(Material.FISHING_ROD);
+				fishy.setDurability((short)(64 - (5* (num % 5))));
+			}else if(num == 60){
+				fishy = new ItemStack(Material.FISHING_ROD);
+				fishy.addEnchantment(Enchantment.DURABILITY, 1);
+			}else if(num <= 65){
+				fishy = new ItemStack(Material.GOLD_NUGGET);
+			}else if(num <= 70){
+				fishy = new ItemStack(Material.EXP_BOTTLE);
+			}else if(num == 100){
+				fishy = new ItemStack(Material.DIAMOND);
+				expdrop = 10;
+			}
+			
+			/*
+			 * Fish - 50% of the time
+			 * Boots (Damaged) 5%
+			 * 
+			 * Diamond - 1%
+			 */
+			
+			event.getPlayer().getWorld().dropItem(event.getPlayer().getLocation(), fishy);
+			event.getPlayer().giveExp(expdrop);
+		}
 	}
 	
 	//-------Recipes--------
