@@ -86,15 +86,22 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 			}else if(num < 86){
 				fishy = new ItemStack(Material.LEATHER_BOOTS,1);
 				fishy.setDurability((short)(65 - (num % 5)));
+				expdrop = 0;
+			}else if(num < 90){
+				fishy = new ItemStack(Material.GOLD_NUGGET);
+				expdrop = 3;
 			}else if(num < 94){
 				fishy = new ItemStack(Material.GLASS_BOTTLE);
+				expdrop = 1;
 			}else if(num < 96){
-				//random potion
+				fishy = new ItemStack(Material.POTION);
 			}else if(num < 99){
-				fishy = new ItemStack(Material.GRASS);
+				fishy = new ItemStack(Material.LONG_GRASS);
+				expdrop = 0;
 			}else if(num == 99){
 				fishy = new ItemStack(Material.FISHING_ROD);
 				fishy.addEnchantment(Enchantment.DURABILITY, 1);
+				expdrop = 5;
 			}else if(num == 100){
 				fishy = new ItemStack(Material.DIAMOND);
 				expdrop = 10;
