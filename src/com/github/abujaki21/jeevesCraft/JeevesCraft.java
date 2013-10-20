@@ -7,7 +7,7 @@
  * 															*
  * website: https://github.com/abujaki21/minestock			*
  * 															*
- * Version: 1.2												*
+ * Version: 2.0											*
  * 															*
  * This software is presented AS IS and without warranty	*
  * of any kind. I will not be held responsible for			*
@@ -79,7 +79,7 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 				expdrop = 3;
 			}else if(num < 76){
 				expdrop = 3;
-				fishy = new ItemStack(Material.RAW_FISH, 2);
+				fishy.setAmount(2);
 			}else if(num < 81){
 				fishy = new ItemStack(Material.FISHING_ROD);
 				fishy.setDurability((short)(64 - (num % 5)));
@@ -87,14 +87,14 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 				fishy = new ItemStack(Material.LEATHER_BOOTS,1);
 				fishy.setDurability((short)(65 - (num % 5)));
 				expdrop = 0;
-			}else if(num < 90){
+			}else if(num < 91){
 				fishy = new ItemStack(Material.GOLD_NUGGET);
 				expdrop = 3;
 			}else if(num < 94){
 				fishy = new ItemStack(Material.GLASS_BOTTLE);
 				expdrop = 1;
-			}else if(num < 96){
-				fishy = new ItemStack(Material.POTION);
+			}else if(num < 95){
+				fishy = new ItemStack(Material.EXP_BOTTLE);
 			}else if(num < 99){
 				fishy = new ItemStack(Material.LONG_GRASS);
 				expdrop = 0;
@@ -106,13 +106,6 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 				fishy = new ItemStack(Material.DIAMOND);
 				expdrop = 10;
 			}
-			
-			/*
-			 * Fish - 50% of the time
-			 * Boots (Damaged) 5%
-			 * 
-			 * Diamond - 1%
-			 */
 			
 			event.getPlayer().getWorld().dropItem(event.getPlayer().getLocation(), fishy);
 			event.getPlayer().giveExp(expdrop);
