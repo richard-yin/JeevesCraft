@@ -6,12 +6,16 @@ Perhaps when I feel some code is useful for a plugin, I will release it as such.
 Contact me if you want to see some features released as plugins.
 
 Current Version:
-2.0
+2.5dev
 
 Functions:
 ----------
-+ Fishing!
-	+ Various garbage and treasures can be found now while fishing
++ Giants!
+	+ Giant spawn egg recipe
+	+ Better giant drops
+
+> Fishing!
+	> Various garbage and treasures can be found now while fishing
 
 > Configuration file
 > Crafting Recipes:

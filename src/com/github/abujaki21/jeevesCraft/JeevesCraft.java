@@ -7,7 +7,7 @@
  * 															*
  * website: https://github.com/abujaki21/minestock			*
  * 															*
- * Version: 2.0											*
+ * Version: 2.5dev											*
  * 															*
  * This software is presented AS IS and without warranty	*
  * of any kind. I will not be held responsible for			*
@@ -24,9 +24,11 @@ import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
@@ -66,11 +68,15 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 	
 	@EventHandler
 	public void onPlayerFishing(PlayerFishEvent event){
-		if(!(event.getCaught() == null)){
-			event.setCancelled(true);
+		if(!(event.getCaught() == null)){ //If something was caught
+			event.setCancelled(true); //Screw that. We make our own rules
+			//Generate a random event
 			double num = (Math.random()*100);
+			//Set our default variables
 			ItemStack fishy = new ItemStack(Material.RAW_FISH);
 			int expdrop = 2;
+			
+			//Change them based on the random event
 			if(num < 10){
 				expdrop = 1;
 			}else if(num < 60){
@@ -99,6 +105,7 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 				fishy = new ItemStack(Material.LONG_GRASS);
 				expdrop = 0;
 			}else if(num == 99){
+				//Enchanted Fishing rod. Such fish. Many rare. Wow.
 				fishy = new ItemStack(Material.FISHING_ROD);
 				fishy.addEnchantment(Enchantment.DURABILITY, 1);
 				expdrop = 5;
@@ -107,10 +114,24 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 				expdrop = 10;
 			}
 			
+			//Drop the item
 			event.getPlayer().getWorld().dropItem(event.getPlayer().getLocation(), fishy);
+			//Dish out the EXP
 			event.getPlayer().giveExp(expdrop);
 		}
 	}
+	
+	public void onGiantDeath(EntityDeathEvent event){
+		//If a giant dies
+		if(event.getEntityType() == EntityType.GIANT){
+			//Add slightly better drops
+			event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), new ItemStack(Material.ROTTEN_FLESH,(short)64));
+			event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), new ItemStack(Material.GOLD_INGOT, (short)5));
+			//Add more EXP
+			event.setDroppedExp(30);
+		}
+	}
+	
 	
 	//-------Recipes--------
 	private void enableRecipes(){
@@ -170,5 +191,20 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 			server.addRecipe(label);
 			logger.info("Added recipe: Nametag");
 		}
+		
+		//if(config.getBoolean("Recipe.GiantEgg")){
+		//Commented out until I can figure out how to update the config file
+			ItemStack egg = new ItemStack(Material.MONSTER_EGG);
+			egg.setDurability((short)53);
+			ShapedRecipe gEgg = new ShapedRecipe(egg);
+			gEgg.shape("fbf","beb","fbf");
+			gEgg.setIngredient('f', Material.ROTTEN_FLESH);
+			gEgg.setIngredient('b', Material.BONE);
+			gEgg.setIngredient('e', Material.EGG);
+			server.addRecipe(gEgg);
+			//Make it rotatable as well
+			gEgg.shape("bfb","fef","bfb");
+			server.addRecipe(gEgg);
+		//}
 	}
 }
