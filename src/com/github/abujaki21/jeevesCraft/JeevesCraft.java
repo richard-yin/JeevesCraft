@@ -28,6 +28,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -38,7 +40,7 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 	private FileConfiguration config;
 	private Logger logger;
 	private Server server;
-	
+
 	@Override
 	public void onEnable(){
 		logger = this.getLogger();
@@ -49,23 +51,23 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 			this.saveDefaultConfig();
 			logger.info("Loaded defaults");
 		}
-		
+
 		config = getConfig();
 		logger.info("Loading Recipes...");
 		enableRecipes();
 		logger.info("Listening intently...");
 		server.getPluginManager().registerEvents(this, this);
 	}
-	
+
 	@Override
 	public void onDisable(){
 		//Don't think there will be much here
-		
+
 		//Not necessary yet as there is no way to change yet it in the plugin
 		//this.saveConfig();
 		logger.info("Goodnight");
 	}
-	
+
 	@EventHandler
 	public void onPlayerFishing(PlayerFishEvent event){
 		if(!(event.getCaught() == null)){ //If something was caught
@@ -75,7 +77,7 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 			//Set our default variables
 			ItemStack fishy = new ItemStack(Material.RAW_FISH);
 			int expdrop = 2;
-			
+
 			//Change them based on the random event
 			if(num < 10){
 				expdrop = 1;
@@ -113,29 +115,49 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 				fishy = new ItemStack(Material.DIAMOND);
 				expdrop = 10;
 			}
-			
+
 			//Drop the item
 			event.getPlayer().getWorld().dropItem(event.getPlayer().getLocation(), fishy);
 			//Dish out the EXP
 			event.getPlayer().giveExp(expdrop);
 		}
 	}
-	
+
+	@EventHandler
 	public void onGiantDeath(EntityDeathEvent event){
 		//If a giant dies
 		if(event.getEntityType() == EntityType.GIANT){
 			//Add slightly better drops
-			event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), new ItemStack(Material.ROTTEN_FLESH,(short)64));
-			event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), new ItemStack(Material.GOLD_INGOT, (short)5));
+			short flesh = (short)((Math.random()*48) + 16);
+			short gold = (short)((Math.random()*4)+2);
+			event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), new ItemStack(Material.ROTTEN_FLESH,flesh));
+			event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), new ItemStack(Material.GOLD_INGOT, gold));
 			//Add more EXP
 			event.setDroppedExp(30);
+			//Because 5 exp for a giant is balls
 		}
 	}
-	
-	
+
+	@SuppressWarnings("unused") //TODO: Remove when giant spawn check is written
+	@EventHandler
+	public void onGiantSpawn(CreatureSpawnEvent event){
+		if((event.getSpawnReason() == SpawnReason.SPAWNER_EGG) && (event.getEntityType() == EntityType.GIANT)){
+			//Check to see if there's enough room to spawn the giant
+			if(false){//If there isn't
+				//!!!- BE CAREFUL HERE -!!!
+				/**cancelling CreatureSpawnEvent can cause a lot of lag. This is because
+				 * the entity is already created in memory with the AI and everything before
+				 * this event is fired. Cancelling it sends the whole thing to AI
+				 * 
+				 * This is okay here, ONLY because we're spawning giants one at a time
+				 */
+				event.setCancelled(true);
+			}//Else do nothing. We don't need to dabble in that
+		}
+	}
 	//-------Recipes--------
 	private void enableRecipes(){
-		
+
 		//Recipe to turn Rotten Flesh into Leather
 		if(config.getBoolean("Recipe.Leather.Enabled")){
 			int amt = config.getInt("Recipe.Leather.FleshForLeather");
@@ -144,7 +166,7 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 			server.addRecipe(leather);
 			logger.info("Added recipe: " + amt + " ROTTEN_FLESH for 1 LEATHER");
 		}
-		
+
 		//Redcipes for Horse armor:
 		// _ _ X
 		// X X X     - Where X is Iron, Gold, or Diamond
@@ -181,7 +203,7 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 			server.addRecipe(saddle);
 			logger.info("Added recipe: Saddle");
 		}
-		
+
 		//Recipe for Nametag
 		if(config.getBoolean("Recipe.Nametag")){
 			ShapelessRecipe label = new ShapelessRecipe(new ItemStack(Material.NAME_TAG));
@@ -191,20 +213,20 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 			server.addRecipe(label);
 			logger.info("Added recipe: Nametag");
 		}
-		
+
 		//if(config.getBoolean("Recipe.GiantEgg")){
 		//Commented out until I can figure out how to update the config file
-			ItemStack egg = new ItemStack(Material.MONSTER_EGG);
-			egg.setDurability((short)53);
-			ShapedRecipe gEgg = new ShapedRecipe(egg);
-			gEgg.shape("fbf","beb","fbf");
-			gEgg.setIngredient('f', Material.ROTTEN_FLESH);
-			gEgg.setIngredient('b', Material.BONE);
-			gEgg.setIngredient('e', Material.EGG);
-			server.addRecipe(gEgg);
-			//Make it rotatable as well
-			gEgg.shape("bfb","fef","bfb");
-			server.addRecipe(gEgg);
+		ItemStack egg = new ItemStack(Material.MONSTER_EGG);
+		egg.setDurability((short)53);
+		ShapedRecipe gEgg = new ShapedRecipe(egg);
+		gEgg.shape("fbf","beb","fbf");
+		gEgg.setIngredient('f', Material.ROTTEN_FLESH);
+		gEgg.setIngredient('b', Material.BONE);
+		gEgg.setIngredient('e', Material.EGG);
+		server.addRecipe(gEgg);
+		//Make it rotatable as well
+		gEgg.shape("bfb","fef","bfb");
+		server.addRecipe(gEgg);
 		//}
 	}
 }
