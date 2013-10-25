@@ -7,7 +7,7 @@
  * 															*
  * website: https://github.com/abujaki21/minestock			*
  * 															*
- * Version: 2.0											*
+ * Version: 2.0												*
  * 															*
  * This software is presented AS IS and without warranty	*
  * of any kind. I will not be held responsible for			*
@@ -18,37 +18,53 @@
 package com.github.abujaki21.jeevesCraft;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.logging.Logger;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import org.bukkit.Material;
 import org.bukkit.Server;
-import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
+
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
-import org.bukkit.plugin.java.JavaPlugin;
+
+
 
 public final class JeevesCraft extends JavaPlugin implements Listener{
-	private FileConfiguration config;
+	//private FileConfiguration config;
 	private Logger logger;
 	private Server server;
+	private File configFile;
+	private YamlConfiguration config;
 	
 	@Override
 	public void onEnable(){
-		logger = this.getLogger();
-		server = this.getServer();
-		logger.info("OnEnable");
-		if(!(new File(getDataFolder().toString().concat("config.yml")).exists())){
-			logger.info("Setting up for the first time...");
-			this.saveDefaultConfig();
-			logger.info("Loaded defaults");
+		logger = getLogger();
+		server = getServer();
+		configFile = new File(getDataFolder(), "config.yml");
+		
+		if(!configFile.exists()){
+			logger.info("No configuration exists! Setting up for the first time");
+			saveDefaultConfig();
+		}
+	
+		try {
+			config = new YamlConfiguration();
+			config.load(configFile);
+		} catch (IOException
+				| InvalidConfigurationException e) {
+			logger.severe("Config file is broken. Restoring defaults...");
+			saveDefaultConfig();
 		}
 		
-		config = getConfig();
 		logger.info("Loading Recipes...");
 		enableRecipes();
 		logger.info("Listening intently...");
@@ -60,7 +76,11 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 		//Don't think there will be much here
 		
 		//Not necessary yet as there is no way to change yet it in the plugin
-		//this.saveConfig();
+		try {
+			config.save(configFile);
+		} catch (IOException e) {
+			logger.severe("Config file could not be saved");
+		}
 		logger.info("Goodnight");
 	}
 	
