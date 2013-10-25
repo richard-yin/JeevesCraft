@@ -1,24 +1,19 @@
-THIS IS NOT REALLY A PLUGIN
+This plugin was originally designed to be a series of patches for the Jeeves
+minecraft server I frequent.
 
-It is a collection of patches for a server.
-Perhaps when I feel some code is useful for a plugin, I will release it as such.
-
-Contact me if you want to see some features released as plugins.
 
 Current Version:
-2.0
+2.1
 
-Functions:
-----------
-+ Fishing!
-	+ Various garbage and treasures can be found now while fishing
+New this update:
+----------------
+- Removed fishing mechanics from 2.0.
+	- Made obsolete by MC1.7.1 update
 
-> Configuration file
-> Crafting Recipes:
-	> Rotten Flesh -> Leather
-	> Iron, Gold, and Diamond Horse Armor
-	> Saddles!
-	> Mob Nametags
++ Configuration file tweak
++ Changelog added
+
+For older updates and functionality, please refer to the changelog
 
 Known Issues:
 -------------

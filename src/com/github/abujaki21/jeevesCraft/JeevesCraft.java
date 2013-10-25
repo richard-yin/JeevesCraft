@@ -7,7 +7,7 @@
  * 															*
  * website: https://github.com/abujaki21/minestock			*
  * 															*
- * Version: 2.0												*
+ * Version: 2.1												*
  * 															*
  * This software is presented AS IS and without warranty	*
  * of any kind. I will not be held responsible for			*
@@ -20,26 +20,18 @@ package com.github.abujaki21.jeevesCraft;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import org.bukkit.Material;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.Server;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.enchantments.Enchantment;
 
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerFishEvent;
-
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 
-
-
-public final class JeevesCraft extends JavaPlugin implements Listener{
-	//private FileConfiguration config;
+public final class JeevesCraft extends JavaPlugin{
 	private Logger logger;
 	private Server server;
 	private File configFile;
@@ -51,85 +43,37 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 		server = getServer();
 		configFile = new File(getDataFolder(), "config.yml");
 		
+		//---If there is no configuration file, create one from default
 		if(!configFile.exists()){
 			logger.info("No configuration exists! Setting up for the first time");
 			saveDefaultConfig();
 		}
-	
+		
+		//--Load configuration file
 		try {
 			config = new YamlConfiguration();
 			config.load(configFile);
-		} catch (IOException
-				| InvalidConfigurationException e) {
+		} catch (InvalidConfigurationException e) { //Bad configuration
 			logger.severe("Config file is broken. Restoring defaults...");
 			saveDefaultConfig();
+		} catch (IOException e){ //Issues with opening the file
+			logger.severe("Unable to read the config file, Using defaults");
 		}
 		
 		logger.info("Loading Recipes...");
 		enableRecipes();
-		logger.info("Listening intently...");
-		server.getPluginManager().registerEvents(this, this);
 	}
 	
 	@Override
 	public void onDisable(){
-		//Don't think there will be much here
 		
-		//Not necessary yet as there is no way to change yet it in the plugin
+		//Try to save the config file
 		try {
 			config.save(configFile);
 		} catch (IOException e) {
 			logger.severe("Config file could not be saved");
 		}
 		logger.info("Goodnight");
-	}
-	
-	@EventHandler
-	public void onPlayerFishing(PlayerFishEvent event){
-		if(!(event.getCaught() == null)){
-			event.setCancelled(true);
-			double num = (Math.random()*100);
-			ItemStack fishy = new ItemStack(Material.RAW_FISH);
-			int expdrop = 2;
-			if(num < 10){
-				expdrop = 1;
-			}else if(num < 60){
-				//Nothing, this is our default
-			}else if(num < 70){
-				expdrop = 3;
-			}else if(num < 76){
-				expdrop = 3;
-				fishy.setAmount(2);
-			}else if(num < 81){
-				fishy = new ItemStack(Material.FISHING_ROD);
-				fishy.setDurability((short)(64 - (num % 5)));
-			}else if(num < 86){
-				fishy = new ItemStack(Material.LEATHER_BOOTS,1);
-				fishy.setDurability((short)(65 - (num % 5)));
-				expdrop = 0;
-			}else if(num < 91){
-				fishy = new ItemStack(Material.GOLD_NUGGET);
-				expdrop = 3;
-			}else if(num < 94){
-				fishy = new ItemStack(Material.GLASS_BOTTLE);
-				expdrop = 1;
-			}else if(num < 95){
-				fishy = new ItemStack(Material.EXP_BOTTLE);
-			}else if(num < 99){
-				fishy = new ItemStack(Material.LONG_GRASS);
-				expdrop = 0;
-			}else if(num == 99){
-				fishy = new ItemStack(Material.FISHING_ROD);
-				fishy.addEnchantment(Enchantment.DURABILITY, 1);
-				expdrop = 5;
-			}else if(num == 100){
-				fishy = new ItemStack(Material.DIAMOND);
-				expdrop = 10;
-			}
-			
-			event.getPlayer().getWorld().dropItem(event.getPlayer().getLocation(), fishy);
-			event.getPlayer().giveExp(expdrop);
-		}
 	}
 	
 	//-------Recipes--------
@@ -144,7 +88,7 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 			logger.info("Added recipe: " + amt + " ROTTEN_FLESH for 1 LEATHER");
 		}
 		
-		//Redcipes for Horse armor:
+		//Recipe for Horse armor:
 		// _ _ X
 		// X X X     - Where X is Iron, Gold, or Diamond
 		// X _ X
