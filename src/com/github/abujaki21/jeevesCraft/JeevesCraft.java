@@ -28,8 +28,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
-//import org.bukkit.event.entity.CreatureSpawnEvent;
-//import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
+import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -138,24 +138,23 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 		}
 	}
 
-	/*@SuppressWarnings("unused") //TODO: Remove when giant spawn check is written
+	@SuppressWarnings("unused") //TODO: Remove when giant spawn check is written
 	@EventHandler
 	public void onGiantSpawn(CreatureSpawnEvent event){
 		if((event.getSpawnReason() == SpawnReason.SPAWNER_EGG) && (event.getEntityType() == EntityType.GIANT)){
 			//Check to see if there's enough room to spawn the giant
 			if(false){//If there isn't
 				//!!!- BE CAREFUL HERE -!!!
-				/*cancelling CreatureSpawnEvent can cause a lot of lag. This is because
+				/**cancelling CreatureSpawnEvent can cause a lot of lag. This is because
 				 * the entity is already created in memory with the AI and everything before
 				 * this event is fired. Cancelling it sends the whole thing to AI
 				 * 
 				 * This is okay here, ONLY because we're spawning giants one at a time
-				 *
+				 */
 				event.setCancelled(true);
-				event.getEntity().
 			}//Else do nothing. We don't need to dabble in that
 		}
-	}*/
+	}
 	//-------Recipes--------
 	private void enableRecipes(){
 
