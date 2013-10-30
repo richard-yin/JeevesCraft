@@ -7,7 +7,7 @@
  * 															*
  * website: https://github.com/abujaki21/minestock			*
  * 															*
- * Version: 2.5dev											*
+ * Version: 2.6dev											*
  * 															*
  * This software is presented AS IS and without warranty	*
  * of any kind. I will not be held responsible for			*
@@ -20,6 +20,7 @@ package com.github.abujaki21.jeevesCraft;
 import java.io.File;
 import java.util.logging.Logger;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -29,7 +30,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -40,6 +40,7 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 	private FileConfiguration config;
 	private Logger logger;
 	private Server server;
+	private boolean makeGiant;
 
 	@Override
 	public void onEnable(){
@@ -57,6 +58,8 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 		enableRecipes();
 		logger.info("Listening intently...");
 		server.getPluginManager().registerEvents(this, this);
+		
+		makeGiant = config.getBoolean("Spawn.Giant");
 	}
 
 	@Override
@@ -124,6 +127,23 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 	}
 
 	@EventHandler
+	public void onMobSpawn(CreatureSpawnEvent event){
+		if(event.getEntityType() == EntityType.GIANT){
+			server.broadcastMessage(ChatColor.RED + "Fee, Fi, Fo, Fum");
+		}
+		else if(event.getEntityType() == EntityType.ZOMBIE){
+			if(makeGiant){
+				int sChance = (int)(Math.random() * 1000);
+				if(sChance <= 5){
+					event.getEntity().getWorld().spawnEntity(event.getLocation(), EntityType.GIANT);
+					event.setCancelled(true);
+					makeGiant = false;
+				}
+			}
+		}
+	}
+	
+	@EventHandler
 	public void onGiantDeath(EntityDeathEvent event){
 		//If a giant dies
 		if(event.getEntityType() == EntityType.GIANT){
@@ -135,26 +155,10 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 			//Add more EXP
 			event.setDroppedExp(30);
 			//Because 5 exp for a giant is balls
+			makeGiant = true;
 		}
 	}
 
-	@SuppressWarnings("unused") //TODO: Remove when giant spawn check is written
-	@EventHandler
-	public void onGiantSpawn(CreatureSpawnEvent event){
-		if((event.getSpawnReason() == SpawnReason.SPAWNER_EGG) && (event.getEntityType() == EntityType.GIANT)){
-			//Check to see if there's enough room to spawn the giant
-			if(false){//If there isn't
-				//!!!- BE CAREFUL HERE -!!!
-				/**cancelling CreatureSpawnEvent can cause a lot of lag. This is because
-				 * the entity is already created in memory with the AI and everything before
-				 * this event is fired. Cancelling it sends the whole thing to AI
-				 * 
-				 * This is okay here, ONLY because we're spawning giants one at a time
-				 */
-				event.setCancelled(true);
-			}//Else do nothing. We don't need to dabble in that
-		}
-	}
 	//-------Recipes--------
 	private void enableRecipes(){
 

@@ -9,4 +9,5 @@ Recipe:
     Diamond: true
   Saddle: true
   Nametag: true
-  GiantEgg: true
+Spawn:
+  Giant: false
