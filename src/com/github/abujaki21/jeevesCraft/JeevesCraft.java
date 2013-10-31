@@ -7,7 +7,7 @@
  * 															*
  * website: https://github.com/abujaki21/minestock			*
  * 															*
- * Version: 2.6dev											*
+ * Version: 2.8 Halloween									*
  * 															*
  * This software is presented AS IS and without warranty	*
  * of any kind. I will not be held responsible for			*
@@ -21,6 +21,7 @@ import java.io.File;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -35,12 +36,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionType;
 
 public final class JeevesCraft extends JavaPlugin implements Listener{
 	private FileConfiguration config;
 	private Logger logger;
 	private Server server;
-	private boolean makeGiant;
+	private int maxGiants, maxWithers;
 
 	@Override
 	public void onEnable(){
@@ -58,8 +61,9 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 		enableRecipes();
 		logger.info("Listening intently...");
 		server.getPluginManager().registerEvents(this, this);
-		
-		makeGiant = config.getBoolean("Spawn.Giant");
+
+		maxGiants = config.getInt("Spawn.Giant.Max");
+		maxWithers = config.getInt("Spawn.Wither.Max");
 	}
 
 	@Override
@@ -129,33 +133,55 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 	@EventHandler
 	public void onMobSpawn(CreatureSpawnEvent event){
 		if(event.getEntityType() == EntityType.GIANT){
-			server.broadcastMessage(ChatColor.RED + "Fee, Fi, Fo, Fum");
-		}
-		else if(event.getEntityType() == EntityType.ZOMBIE){
-			if(makeGiant){
+			server.broadcastMessage(ChatColor.RED + config.getString("Spawn.Giant.Message"));
+		}else if(event.getEntityType() == EntityType.WITHER){
+			server.broadcastMessage(ChatColor.RED + config.getString("Spawn.Wither.Message"));
+		}else if(event.getEntityType() == EntityType.ZOMBIE){
+			if(maxGiants > 0){
 				int sChance = (int)(Math.random() * 1000);
 				if(sChance <= 5){
 					event.getEntity().getWorld().spawnEntity(event.getLocation(), EntityType.GIANT);
 					event.setCancelled(true);
-					makeGiant = false;
+					maxGiants-=1;
+				}
+			}
+		}else if (event.getEntityType() == EntityType.CREEPER){
+			if(maxWithers > 0){
+				int sChance = (int)(Math.random() * 100);
+				if(sChance <= 3){
+					event.getEntity().getWorld().spawnEntity(event.getLocation(), EntityType.WITHER);
+					event.setCancelled(true);
+					maxWithers-=1;
 				}
 			}
 		}
 	}
-	
+
 	@EventHandler
-	public void onGiantDeath(EntityDeathEvent event){
-		//If a giant dies
-		if(event.getEntityType() == EntityType.GIANT){
+	public void onMobDeath(EntityDeathEvent event){
+		//If a mob dies
+		EntityType ent = event.getEntityType();
+		if(ent == EntityType.GIANT){
 			//Add slightly better drops
-			short flesh = (short)((Math.random()*48) + 16);
-			short gold = (short)((Math.random()*4)+2);
-			event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), new ItemStack(Material.ROTTEN_FLESH,flesh));
-			event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), new ItemStack(Material.GOLD_INGOT, gold));
+			short flesh = (short)((Math.random()*112) + 16);
+			short gold = (short)((Math.random()*6)+2);
+			Location loc = event.getEntity().getLocation();
+			event.getEntity().getWorld().dropItemNaturally(loc, new ItemStack(Material.ROTTEN_FLESH, flesh));
+			event.getEntity().getWorld().dropItemNaturally(loc, new ItemStack(Material.GOLD_INGOT, gold));
+			short coin = (short)((Math.random())+1);
+			event.getEntity().getWorld().dropItemNaturally(loc, new ItemStack(Material.DIAMOND, coin));
+			Potion str = new Potion(PotionType.STRENGTH);
+			str.setLevel(coin);
+			ItemStack pot = str.toItemStack((short)((Math.random()*2)+1));
+			event.getEntity().getWorld().dropItemNaturally(loc, pot);
+			
 			//Add more EXP
 			event.setDroppedExp(30);
 			//Because 5 exp for a giant is balls
-			makeGiant = true;
+			maxGiants+=1;
+
+		} else if (ent == EntityType.WITHER){
+			maxWithers-=1;
 		}
 	}
 
@@ -220,7 +246,7 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 
 		//if(config.getBoolean("Recipe.GiantEgg")){
 		//Commented out until I can figure out how to update the config file
-		ItemStack egg = new ItemStack(Material.MONSTER_EGG);
+		/*ItemStack egg = new ItemStack(Material.MONSTER_EGG);
 		egg.setDurability((short)53);
 		ShapedRecipe gEgg = new ShapedRecipe(egg);
 		gEgg.shape("fbf","beb","fbf");
@@ -231,6 +257,6 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 		//Make it rotatable as well
 		gEgg.shape("bfb","fef","bfb");
 		server.addRecipe(gEgg);
-		//}
+		//}*/
 	}
 }

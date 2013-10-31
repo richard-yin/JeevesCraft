@@ -10,4 +10,9 @@ Recipe:
   Saddle: true
   Nametag: true
 Spawn:
-  Giant: false
+  Giant:
+    Max: 0
+    Message: Fee Fi Fo Fum
+  Wither:
+    Max: 0
+    Message: The air chills, The flora withers... a new presence emerges
