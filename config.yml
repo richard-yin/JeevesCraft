@@ -10,4 +10,8 @@ Recipe:
   Saddle: true
   Nametag: true
 Spawn:
-  Giant: false
+  Giant:
+    Max: 0
+    SpawnNumerator: 1
+    SpawnDenominator: 1000
+    Message: Fee Fi Fo Fum...
