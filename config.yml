@@ -1,4 +1,4 @@
-#Default Configuration File for JoshCraft 2.1
+#Default Configuration File for JoshCraft 2.5
 Recipe:
   Leather:
     Enabled: true
@@ -9,3 +9,5 @@ Recipe:
     Diamond: true
   Saddle: true
   Nametag: true
+Spawn:
+  Giant: false
