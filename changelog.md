@@ -1,10 +1,23 @@
 JeevesCraft
 ===========
 
+v2.7 - Sponge Update
+-------------
++ Added recipe for Sponges
++ Attempted to restore old sponge functionality
+
+v2.6 - Code
+-----------
++ Modified the code for future expansion
+
+v2.5 - Giants Update
+--------------------
++ Giants now spawn naturally
+
 v2.1 - Fishing Removal
 ----------------------
 - Functionality added in v2.0 made obsolete by MC1.7.1 update
-+ Added this config file for version tracking
++ Added this changelog file for version tracking
 
 v2.0 - Fishing Update
 ---------------------

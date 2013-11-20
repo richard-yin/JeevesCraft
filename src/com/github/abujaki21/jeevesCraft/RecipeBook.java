@@ -2,7 +2,6 @@ package com.github.abujaki21.jeevesCraft;
 
 import java.util.logging.Logger;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -20,7 +19,7 @@ public class RecipeBook {
 			ShapelessRecipe leather = new ShapelessRecipe(new ItemStack(Material.LEATHER,1));
 			leather = leather.addIngredient(amt, Material.ROTTEN_FLESH);
 			server.addRecipe(leather);
-			logger.info(ChatColor.DARK_AQUA + "Added recipe: " + amt + " ROTTEN_FLESH for 1 LEATHER");
+			logger.info("Added recipe: " + amt + " ROTTEN_FLESH for 1 LEATHER");
 		}
 
 		//Recipe for Horse armor:
@@ -32,21 +31,21 @@ public class RecipeBook {
 			HAIarmor.shape("  I","III","I I");
 			HAIarmor.setIngredient('I',Material.IRON_INGOT);
 			server.addRecipe(HAIarmor);
-			logger.info(ChatColor.DARK_AQUA + "Added recipe: Horse Armor (Iron)");
+			logger.info("Added recipe: Horse Armor (Iron)");
 		}
 		if(config.getBoolean("Recipe.HorseArmor.Gold")){
 			ShapedRecipe HAGarmor = new ShapedRecipe(new ItemStack(Material.GOLD_BARDING));
 			HAGarmor.shape("  G","GGG","G G");
 			HAGarmor.setIngredient('G', Material.GOLD_INGOT);
 			server.addRecipe(HAGarmor);
-			logger.info(ChatColor.DARK_AQUA + "Added recipe: Horse Armor (Gold)");
+			logger.info("Added recipe: Horse Armor (Gold)");
 		}
 		if(config.getBoolean("Recipe.HorseArmor.Diamond")){
 			ShapedRecipe HADarmor = new ShapedRecipe(new ItemStack(Material.DIAMOND_BARDING));
 			HADarmor.shape("  D","DDD","D D");
 			HADarmor.setIngredient('D', Material.DIAMOND);
 			server.addRecipe(HADarmor);
-			logger.info(ChatColor.DARK_AQUA + "Added recipe: Horse Armor (Diamond)");
+			logger.info("Added recipe: Horse Armor (Diamond)");
 		}
 
 		//Recipe for Saddle
@@ -57,7 +56,7 @@ public class RecipeBook {
 			saddle.setIngredient('L', Material.LEATHER);
 			saddle.setIngredient('I', Material.IRON_INGOT);
 			server.addRecipe(saddle);
-			logger.info(ChatColor.DARK_AQUA + "Added recipe: Saddle");
+			logger.info("Added recipe: Saddle");
 		}
 
 		//Recipe for Nametag
@@ -67,10 +66,45 @@ public class RecipeBook {
 			label.addIngredient(Material.PAPER);
 			label.addIngredient(Material.INK_SACK);
 			server.addRecipe(label);
-			logger.info(ChatColor.DARK_AQUA + "Added recipe: Nametag");
+			logger.info("Added recipe: Nametag");
 		}
 		
 		//RESERVED FOR PACKED ICE RECIPE
+		/*if(config.getBoolean("Recipe.PackedIce")){
+			ShapelessRecipe PackedIce = new ShapelessRecipe(new ItemStack(Material.ICE));
+			PackedIce.addIngredient(4, Material.SNOW_BLOCK);
+			server.addRecipe(PackedIce);
+		}*/
 		
+		if(config.getBoolean("Recipe.Sponge")){
+			//Four of any huge mushroom block
+			//Two types of huge mushroom blocks, so we need to add all recipes...
+			//4:0
+			ShapelessRecipe sponge = new ShapelessRecipe(new ItemStack(Material.SPONGE));
+			sponge.addIngredient(Material.HUGE_MUSHROOM_1,4);
+			server.addRecipe(sponge);
+			
+			//1:3
+			sponge.removeIngredient(1, Material.HUGE_MUSHROOM_1);
+			sponge.addIngredient(Material.HUGE_MUSHROOM_2);
+			server.addRecipe(sponge);
+			
+			//2:2
+			sponge.removeIngredient(1, Material.HUGE_MUSHROOM_1);
+			sponge.addIngredient(Material.HUGE_MUSHROOM_2);
+			server.addRecipe(sponge);
+			
+			//3:1
+			sponge.removeIngredient(1, Material.HUGE_MUSHROOM_1);
+			sponge.addIngredient(Material.HUGE_MUSHROOM_2);
+			server.addRecipe(sponge);
+			
+			//4:0
+			sponge.removeIngredient(1, Material.HUGE_MUSHROOM_1);
+			sponge.addIngredient(Material.HUGE_MUSHROOM_2);
+			server.addRecipe(sponge);
+			
+			logger.info("Added recipe: Sponge (5)");
+		}
 	}
 }

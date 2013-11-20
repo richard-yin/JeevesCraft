@@ -76,7 +76,8 @@ public final class GiantSpawner implements Listener{
 		event.getEntity().getWorld().dropItemNaturally(loc, new ItemStack(Material.GOLD_INGOT, gold));
 		event.getEntity().getWorld().dropItemNaturally(loc, new ItemStack(Material.DIAMOND, coin));
 		
-		Potion str = new Potion(PotionType.STRENGTH); //Potion of MUSCLES!
+		//Potion of MUSCLES!
+		Potion str = new Potion(PotionType.STRENGTH);
 		str.setLevel(coin);
 		ItemStack pot = str.toItemStack((short)((Math.random()*2)+1)); //1-3 Potions
 		event.getEntity().getWorld().dropItemNaturally(loc, pot);

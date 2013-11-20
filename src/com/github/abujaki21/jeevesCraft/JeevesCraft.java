@@ -7,7 +7,7 @@
  * 															*
  * website: https://github.com/abujaki21/minestock			*
  * 															*
- * Version: 2.6.5dev										*
+ * Version: 2.7												*
  * 															*
  * This software is presented AS IS and without warranty	*
  * of any kind. I will not be held responsible for			*
@@ -20,7 +20,6 @@ package com.github.abujaki21.jeevesCraft;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.event.Listener;
@@ -41,7 +40,7 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 
 		//---If there is no configuration file, create one from default
 		if(!configFile.exists()){
-			logger.info(ChatColor.DARK_AQUA + "No configuration exists! Setting up for the first time");
+			logger.info("No configuration exists! Setting up for the first time");
 			saveDefaultConfig();
 		}
 
@@ -50,17 +49,18 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 			config = new YamlConfiguration();
 			config.load(configFile);
 		} catch (InvalidConfigurationException e) { //Bad configuration
-			logger.severe(ChatColor.RED + "Config file is broken. Restoring defaults...");
+			logger.severe("Config file is broken. Restoring defaults...");
 			saveDefaultConfig();
 		} catch (IOException e){ //Issues with opening the file
-			logger.severe(ChatColor.RED + "Unable to read the config file, Using defaults");
+			logger.severe("Unable to read the config file, Using defaults");
 		}
 
-		logger.info(ChatColor.DARK_AQUA + "Loading Recipes...");
+		logger.info("Loading Recipes...");
 		RecipeBook.enableRecipes(server, config);
 		
-		logger.info(ChatColor.DARK_AQUA + "Listening intently...");
+		logger.info("Listening intently...");
 		new GiantSpawner(this);
+		new SpongeMech(this);
 	}
 
 	@Override
@@ -69,8 +69,8 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 		try {
 			config.save(configFile);
 		} catch (IOException e) {
-			logger.severe(ChatColor.RED + "Config file could not be saved");
+			logger.severe("Config file could not be saved");
 		}
-		logger.info(ChatColor.DARK_AQUA + "Goodnight");
+		logger.info("Goodnight");
 	}
 }
