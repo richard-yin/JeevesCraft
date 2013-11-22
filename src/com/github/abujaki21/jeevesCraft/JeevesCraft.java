@@ -31,7 +31,7 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 	private Server server;
 	private File configFile;
 	private YamlConfiguration config;
-	
+
 	@Override
 	public void onEnable(){
 		logger = getLogger();
@@ -57,10 +57,11 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 
 		logger.info("Loading Recipes...");
 		RecipeBook.enableRecipes(server, config);
-		
+
 		logger.info("Listening intently...");
 		new GiantSpawner(this);
 		new SpongeMech(this);
+		new PlayerDeath(this);
 	}
 
 	@Override

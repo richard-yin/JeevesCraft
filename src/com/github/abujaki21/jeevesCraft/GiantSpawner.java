@@ -32,7 +32,7 @@ public final class GiantSpawner implements Listener{
 			//per zombie up to the cap, I don't want to encourage dividing by zero.
 			spawnD = 1000;
 		}
-		
+
 		//Register the class as a listener
 		jeeves.getServer().getPluginManager().registerEvents(this, jeeves);
 	}
@@ -63,29 +63,31 @@ public final class GiantSpawner implements Listener{
 
 	@EventHandler
 	public void onGiantDeath(EntityDeathEvent event){
-		//Add slightly better drops
-		
-		//Important numbers.
-		short flesh = (short)((Math.random()*56) + 8); //8-64 Rotten flesh
-		short gold = (short)((Math.random()*6)+2); //2-8 Gold ingots
-		short coin = (short)((Math.random())+1); //1-2 Diamonds; Level 1-2 Potion of Strength
-		Location loc = event.getEntity().getLocation(); //Where the giant was slain
-		
-		//Drop the items
-		event.getEntity().getWorld().dropItemNaturally(loc, new ItemStack(Material.ROTTEN_FLESH, flesh));
-		event.getEntity().getWorld().dropItemNaturally(loc, new ItemStack(Material.GOLD_INGOT, gold));
-		event.getEntity().getWorld().dropItemNaturally(loc, new ItemStack(Material.DIAMOND, coin));
-		
-		//Potion of MUSCLES!
-		Potion str = new Potion(PotionType.STRENGTH);
-		str.setLevel(coin);
-		ItemStack pot = str.toItemStack((short)((Math.random()*2)+1)); //1-3 Potions
-		event.getEntity().getWorld().dropItemNaturally(loc, pot);
+		if(event.getEntityType() == EntityType.GIANT){
+			//Add slightly better drops
 
-		//Add more EXP because 5 EXP for a giant is balls
-		event.setDroppedExp(30);
-		
-		//Open up a giant slot 
-		maxGiants++;
+			//Important numbers.
+			short flesh = (short)((Math.random()*56) + 8); //8-64 Rotten flesh
+			short gold = (short)((Math.random()*6)+2); //2-8 Gold ingots
+			short coin = (short)((Math.random())+1); //1-2 Diamonds; Level 1-2 Potion of Strength
+			Location loc = event.getEntity().getLocation(); //Where the giant was slain
+
+			//Drop the items
+			event.getEntity().getWorld().dropItemNaturally(loc, new ItemStack(Material.ROTTEN_FLESH, flesh));
+			event.getEntity().getWorld().dropItemNaturally(loc, new ItemStack(Material.GOLD_INGOT, gold));
+			event.getEntity().getWorld().dropItemNaturally(loc, new ItemStack(Material.DIAMOND, coin));
+
+			//Potion of MUSCLES!
+			Potion str = new Potion(PotionType.STRENGTH);
+			str.setLevel(coin);
+			ItemStack pot = str.toItemStack((short)((Math.random()*2)+1)); //1-3 Potions
+			event.getEntity().getWorld().dropItemNaturally(loc, pot);
+
+			//Add more EXP because 5 EXP for a giant is balls
+			event.setDroppedExp(30);
+
+			//Open up a giant slot 
+			maxGiants++;
+		}
 	}
 }

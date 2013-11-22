@@ -85,7 +85,7 @@ public class RecipeBook {
 			server.addRecipe(sponge);
 			
 			//1:3
-			sponge.removeIngredient(1, Material.HUGE_MUSHROOM_1);
+			sponge.removeIngredient(Material.HUGE_MUSHROOM_1, 1);
 			sponge.addIngredient(Material.HUGE_MUSHROOM_2);
 			server.addRecipe(sponge);
 			
@@ -104,7 +104,17 @@ public class RecipeBook {
 			sponge.addIngredient(Material.HUGE_MUSHROOM_2);
 			server.addRecipe(sponge);
 			
-			logger.info("Added recipe: Sponge (5)");
+			//logger.info("Added recipe: Sponge (5)");
+			
+			//TODO: Mushroom blocks are weird. The above recipies for some reason do not work.
+			//Added test recipe below that does work.
+			ShapedRecipe sponge2 = new ShapedRecipe(new ItemStack(Material.SPONGE));
+			sponge2.shape(" S ","SCS"," S ");
+			sponge2.setIngredient('S',Material.SAND);
+			sponge2.setIngredient('C', Material.CACTUS);
+			server.addRecipe(sponge2);
+			
+			logger.info("[TEST] Added recipe: Sponge");
 		}
 	}
 }
