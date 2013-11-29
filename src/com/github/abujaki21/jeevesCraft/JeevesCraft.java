@@ -7,7 +7,7 @@
  * 															*
  * website: https://github.com/abujaki21/minestock			*
  * 															*
- * Version: 2.7												*
+ * Version: 2.7dev											*
  * 															*
  * This software is presented AS IS and without warranty	*
  * of any kind. I will not be held responsible for			*
@@ -55,13 +55,16 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 			logger.severe("Unable to read the config file, Using defaults");
 		}
 
+		//Load recipes from recipe book
 		logger.info("Loading Recipes...");
 		RecipeBook.enableRecipes(server, config);
 
+		//Load listeners
 		logger.info("Listening intently...");
 		new GiantSpawner(this);
 		new SpongeMech(this);
 		new PlayerDeath(this);
+		new Bookshelf(this);
 	}
 
 	@Override
@@ -72,6 +75,9 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 		} catch (IOException e) {
 			logger.severe("Config file could not be saved");
 		}
+		
+		//TODO: call other modules to save their data
+		
 		logger.info("Goodnight");
 	}
 }
