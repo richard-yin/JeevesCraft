@@ -113,7 +113,7 @@ public class Bookshelf implements Listener{
 			e.getPlayer().openInventory(bookMap.get(shelf));
 		}
 	}
-	
+
 	private void makeShelf(Location shelf){
 		//Create the inventory
 		Inventory newInv = Bukkit.createInventory(null, 9, "Bookshelf");
