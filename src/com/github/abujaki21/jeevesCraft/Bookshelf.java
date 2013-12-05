@@ -101,15 +101,20 @@ public class Bookshelf implements Listener{
 	@EventHandler
 	public void clickBookshelf(PlayerInteractEvent e){
 		if((e.getAction() == Action.RIGHT_CLICK_BLOCK) &&
-				(e.getItem().getType() == Material.AIR) &&
 				(e.getClickedBlock().getType() == Material.BOOKSHELF)){
 			//Bookshelf is right-clicked
-			Location shelf = e.getClickedBlock().getLocation();
-			if(!bookMap.containsKey(shelf)){
+			if(e.isBlockInHand()){ //Convenience method to see if block was placed
+				//Unplace block
+				e.setCancelled(true);	
+			}
+			
+			Location loc = e.getClickedBlock().getLocation();
+			if(!bookMap.containsKey(loc)){
 				//If there's no inventory, make one
-				makeShelf(shelf);
+				makeShelf(loc);
 			}
 			//Open the inventory
+			e.getPlayer().openInventory(bookMap.get(loc));
 		}
 	}
 

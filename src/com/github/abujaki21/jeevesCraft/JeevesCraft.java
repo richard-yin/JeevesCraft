@@ -65,6 +65,7 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 		new SpongeMech(this);
 		new PlayerDeath(this);
 		new Bookshelf(this);
+		logger.info("Dev ver 13339-1451");
 	}
 
 	@Override

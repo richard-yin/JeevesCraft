@@ -77,7 +77,7 @@ public class RecipeBook {
 		}*/
 		
 		if(config.getBoolean("Recipe.Sponge")){
-			//Four of any huge mushroom block
+			/*//Four of any huge mushroom block
 			//Two types of huge mushroom blocks, so we need to add all recipes...
 			//4:0
 			ShapelessRecipe sponge = new ShapelessRecipe(new ItemStack(Material.SPONGE));
@@ -115,6 +115,7 @@ public class RecipeBook {
 			server.addRecipe(sponge2);
 			
 			logger.info("[TEST] Added recipe: Sponge");
+			*/
 		}
 	}
 }
