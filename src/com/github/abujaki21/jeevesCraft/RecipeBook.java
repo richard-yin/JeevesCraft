@@ -81,11 +81,11 @@ public class RecipeBook {
 			//Two types of huge mushroom blocks, so we need to add all recipes...
 			//4:0
 			ShapelessRecipe sponge = new ShapelessRecipe(new ItemStack(Material.SPONGE));
-			sponge.addIngredient(Material.HUGE_MUSHROOM_1,4);
+			sponge.addIngredient(4, Material.HUGE_MUSHROOM_1);
 			server.addRecipe(sponge);
 			
 			//1:3
-			sponge.removeIngredient(Material.HUGE_MUSHROOM_1, 1);
+			sponge.removeIngredient(1, Material.HUGE_MUSHROOM_1);
 			sponge.addIngredient(Material.HUGE_MUSHROOM_2);
 			server.addRecipe(sponge);
 			
