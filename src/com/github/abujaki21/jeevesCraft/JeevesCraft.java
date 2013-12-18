@@ -24,6 +24,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.ChatColor;
 import org.bukkit.Server;
 
 public final class JeevesCraft extends JavaPlugin implements Listener{
@@ -64,7 +65,8 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 		new GiantSpawner(this);
 		new SpongeMech(this);
 		new PlayerDeath(this);
-		new Bookshelf(this);
+		new Bookshelf(this, getDataFolder());
+		server.broadcastMessage(ChatColor.AQUA + "Dev ver 13343-1548");
 	}
 
 	@Override

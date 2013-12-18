@@ -1,31 +1,44 @@
 package com.github.abujaki21.jeevesCraft;
 
+import java.io.*;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-//
+
 public class Bookshelf implements Listener{
 	private static HashMap<Location, Inventory> bookMap;
-
-	public Bookshelf(JeevesCraft jeeves){
+//	private File folder;
+	
+	public Bookshelf(JeevesCraft jeeves, File dataFolder){
 		bookMap = new HashMap<Location, Inventory>();
+		//Load the shelves from file
+//		folder = dataFolder;
+		load();
 		jeeves.getServer().getPluginManager().registerEvents(this, jeeves);
-		//TODO: Load the bookshelves from file
 		//TODO: Saving the bookshelves to file is also probably a good idea
 	}
+	
+	public void load(){
+		
+	}
+	
+	public void save(){
+		
+	}
+	
 	@EventHandler
 	public void breakBookshelf(BlockBreakEvent e){
 		if((e.getBlock().getType() == Material.BOOKSHELF)){
@@ -47,46 +60,51 @@ public class Bookshelf implements Listener{
 		}
 	}
 
+	@EventHandler
 	public void inventoryClickBookshelf(InventoryClickEvent e){
-		if((e.getInventory().getName() == "Bookshelf") && 
-				((e.getClick() == ClickType.CONTROL_DROP) || 
-						(e.getClick() == ClickType.DROP) ||
-						(e.getClick() == ClickType.SHIFT_LEFT))){
-			//TODO: Figure out which one it is
-			ItemStack iteminv = e.getCurrentItem();
-			ItemStack itemcur = e.getCursor();
-			Material it = itemcur.getType();
-			((CommandSender) e.getWhoClicked()).sendMessage(iteminv + " in box, " + itemcur + " in hand");
-			//If the inventory is a bookshelf inventory
-			//Limit the inventory to only
-			//Books
-			//Books and Quills
-			//Signed books
-			//Enchanted books
-			//Maps
-			//Records
-			switch (it){
-			case BOOK:
-			case BOOK_AND_QUILL:
-			case WRITTEN_BOOK:
-			case ENCHANTED_BOOK:
-			case MAP:
-			case GOLD_RECORD:
-			case GREEN_RECORD:
-			case RECORD_3:
-			case RECORD_4:
-			case RECORD_5:
-			case RECORD_6:
-			case RECORD_7:
-			case RECORD_8:
-			case RECORD_9:
-			case RECORD_10:
-			case RECORD_11:
-			case RECORD_12:
-				break;
-			default:
-				//else cancel placement
-				e.setCancelled(true);	
+		if(e.getInventory().getTitle() == "Bookshelf"){
+			Player p = (Player) e.getWhoClicked();
+			p.sendMessage("Inventory event: " + e.getAction());
+			if((e.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY) ||
+					(e.getAction() == InventoryAction.PLACE_ALL) ||
+					(e.getAction() == InventoryAction.PLACE_ONE) ||
+					(e.getAction() == InventoryAction.PLACE_SOME)){
+
+				ItemStack itemcur = e.getCursor();
+				Material it = itemcur.getType();
+				//If the inventory is a bookshelf inventory
+				//Limit the inventory to only
+				//Books
+				//Books and Quills
+				//Signed books
+				//Enchanted books
+				//Maps
+				//Records
+				switch (it){
+				case BOOK:
+				case BOOK_AND_QUILL:
+				case WRITTEN_BOOK:
+				case ENCHANTED_BOOK:
+				case MAP:
+				case GOLD_RECORD:
+				case GREEN_RECORD:
+				case RECORD_3:
+				case RECORD_4:
+				case RECORD_5:
+				case RECORD_6:
+				case RECORD_7:
+				case RECORD_8:
+				case RECORD_9:
+				case RECORD_10:
+				case RECORD_11:
+				case RECORD_12:
+					break;
+				case AIR:
+					//Strange things happen when shift-Click moving
+					break;
+				default:
+					e.setCancelled(true);
+				}
 			}
 		}
 	}
@@ -104,13 +122,18 @@ public class Bookshelf implements Listener{
 		if((e.getAction() == Action.RIGHT_CLICK_BLOCK) &&
 				(e.getClickedBlock().getType() == Material.BOOKSHELF)){
 			//Bookshelf is right-clicked
-			Location shelf = e.getClickedBlock().getLocation();
-			if(!bookMap.containsKey(shelf)){
+			if(e.isBlockInHand()){ //Convenience method to see if block was placed
+				//Unplace block
+				e.setCancelled(true);	
+			}
+
+			Location loc = e.getClickedBlock().getLocation();
+			if(!bookMap.containsKey(loc)){
 				//If there's no inventory, make one
-				makeShelf(shelf);
+				makeShelf(loc);
 			}
 			//Open the inventory
-			e.getPlayer().openInventory(bookMap.get(shelf));
+			e.getPlayer().openInventory(bookMap.get(loc));
 		}
 	}
 
@@ -118,7 +141,7 @@ public class Bookshelf implements Listener{
 		//Create the inventory
 		Inventory newInv = Bukkit.createInventory(null, 9, "Bookshelf");
 		//Limit the stack size
-		newInv.setMaxStackSize(1);
+		//newInv.setMaxStackSize(1);
 		//Add the bookshelf to the map
 		bookMap.put(shelf, newInv);
 	}
