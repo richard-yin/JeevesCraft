@@ -27,13 +27,13 @@ public class SpongeMech implements Listener{
 
 	@EventHandler
 	public void onBlockUpdate(BlockFromToEvent event){
-		int locX = event.getBlock().getX();
-		int locY = event.getBlock().getY();
-		int locZ = event.getBlock().getZ();
+		int locX = event.getBlock().getX() - range;
+		int locY = event.getBlock().getY() - range;
+		int locZ = event.getBlock().getZ() - range;
 		World world = event.getBlock().getWorld();
-		for(int i = locX - (2*range); i <= (locX + (2*range)); i++){ //Loop x
-			for(int j = locY - (2*range); j <= (locY + (2*range)); j++){ //Loop y
-				for(int k = locZ - (2*range); k <= (locZ + (2*range)); k++){ //Loop z
+		for(int i = locX; i <= (locX + (2*range)); i++){ //Loop x
+			for(int j = locY; j <= (locY + (2*range)); j++){ //Loop y
+				for(int k = locZ; k <= (locZ + (2*range)); k++){ //Loop z
 					if (world.getBlockAt(i, j, k).getType() == Material.SPONGE){
 						event.setCancelled(true);
 						return;
