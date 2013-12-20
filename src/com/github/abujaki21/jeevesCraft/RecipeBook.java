@@ -115,7 +115,6 @@ public class RecipeBook {
 			server.addRecipe(sponge2);
 			
 			logger.info("[TEST] Added recipe: Sponge");
-			*/
 		}
 	}
 }

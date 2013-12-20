@@ -65,7 +65,6 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 		new GiantSpawner(this);
 		new SpongeMech(this);
 		new PlayerDeath(this);
-		new Bookshelf(this, getDataFolder());
 		server.broadcastMessage(ChatColor.AQUA + "Dev ver 13343-1548");
 	}
 

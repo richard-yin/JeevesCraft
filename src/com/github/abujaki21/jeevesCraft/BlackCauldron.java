@@ -52,7 +52,7 @@ public class BlackCauldron implements Listener {
 	}
 
 	private void buildCauldron(Location loc){
-		Brew brew = new Brew();
+		Brew brew = Brew.WATER;
 		cauldronMap.put(loc, brew);
 	}
 }
