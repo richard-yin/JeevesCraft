@@ -21,13 +21,12 @@ public class PlayerDeath implements Listener{
 	public void onPlayerDeath(PlayerDeathEvent event){
 		if(event.getEntityType() == EntityType.PLAYER){
 			Player dead = event.getEntity().getPlayer();
+			//Pry the skull from their head
 			ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short)SkullType.PLAYER.ordinal());
 			SkullMeta skullmeta = (SkullMeta) skull.getItemMeta();
 			skullmeta.setOwner(dead.getName());
-			if(!dead.getDisplayName().isEmpty()){
-				skullmeta.setDisplayName(dead.getDisplayName());
-			}
 			skull.setItemMeta(skullmeta);
+			//Drop it
 			event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), skull);
 		}
 	}

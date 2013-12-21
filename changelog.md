@@ -1,8 +1,14 @@
 JeevesCraft
 ===========
 
+v3.0 - 1.7.2 Update
+-------------------
++ Added packed ice recipe
++ Added new player death event
++ Tweaked sponge functionality
+
 v2.7 - Sponge Update
--------------
+--------------------
 + Added recipe for Sponges
 + Attempted to restore old sponge functionality
 

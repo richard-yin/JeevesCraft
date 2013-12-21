@@ -27,14 +27,18 @@ public class SpongeMech implements Listener{
 
 	@EventHandler
 	public void onBlockUpdate(BlockFromToEvent event){
-		int locX = event.getBlock().getX() - range;
-		int locY = event.getBlock().getY() - range;
-		int locZ = event.getBlock().getZ() - range;
+		//Get bottom corner of the block
+		int locX = event.getBlock().getX() - (range + 1);
+		int locY = event.getBlock().getY() - (range + 1);
+		int locZ = event.getBlock().getZ() - (range + 1);
 		World world = event.getBlock().getWorld();
-		for(int i = locX; i <= (locX + (2*range)); i++){ //Loop x
-			for(int j = locY; j <= (locY + (2*range)); j++){ //Loop y
-				for(int k = locZ; k <= (locZ + (2*range)); k++){ //Loop z
+		
+		//Loop through xyz and look for a sponge
+		for(int i = locX; i <= (locX + (2*range)+ 1); i++){ //Loop x
+			for(int j = locY; j <= (locY + (2*range)+ 1); j++){ //Loop y
+				for(int k = locZ; k <= (locZ + (2*range) + 1); k++){ //Loop z
 					if (world.getBlockAt(i, j, k).getType() == Material.SPONGE){
+						//Found sponge. Cancel the flow and leave.
 						event.setCancelled(true);
 						return;
 					}
@@ -59,9 +63,9 @@ public class SpongeMech implements Listener{
 				for(int j = locY; j <= (locY + (2*range)); j++){ //Loop y
 					for(int k = locZ; k <= (locZ + (2*range)); k++){ //Loop z
 						curr = world.getBlockAt(i, j, k); //X, Y, Z
+						//Mop up water
 						if((curr.getType() == Material.WATER) ||
-								(curr.getType() == Material.STATIONARY_WATER) ||
-								(curr.getType() == Material.AIR)){
+								(curr.getType() == Material.STATIONARY_WATER)){
 							curr.setType(Material.AIR);
 						}
 					}

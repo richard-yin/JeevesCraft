@@ -14,9 +14,9 @@ import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionType;
 
 public final class GiantSpawner implements Listener{
-	Server server;
-	int maxGiants, spawnN, spawnD;
-	String spawnMessage;
+	private Server server;
+	private int maxGiants, spawnN, spawnD;
+	private String spawnMessage;
 
 	public GiantSpawner(JeevesCraft jeeves) {
 
@@ -25,14 +25,14 @@ public final class GiantSpawner implements Listener{
 		spawnN = jeeves.getConfig().getInt("Spawn.Giant.SpawnNumerator");
 		spawnD = jeeves.getConfig().getInt("Spawn.Giant.SpawnDenominator");
 		spawnMessage = jeeves.getConfig().getString("Spawn.Giant.Message");
-
 		if(spawnD == 0){
 			//For smart-asses who want to destroy the universe, we substitute the default value
 			//Even though technically for any values D,N s.t. D <= N, the spawn rate is 1 giant 
 			//per zombie up to the cap, I don't want to encourage dividing by zero.
 			spawnD = 1000;
 		}
-
+		
+		server = jeeves.getServer();
 		//Register the class as a listener
 		jeeves.getServer().getPluginManager().registerEvents(this, jeeves);
 	}
