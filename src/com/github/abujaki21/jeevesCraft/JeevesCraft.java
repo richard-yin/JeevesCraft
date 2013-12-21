@@ -7,7 +7,7 @@
  * 															*
  * website: https://github.com/abujaki21/minestock			*
  * 															*
- * Version: 2.7dev											*
+ * Version: 3.0												*
  * 															*
  * This software is presented AS IS and without warranty	*
  * of any kind. I will not be held responsible for			*
@@ -69,12 +69,16 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 	@Override
 	public void onDisable(){
 		//Try to save the config file
+		
+		//TODO: Remove commenting when the config can be edited hot
+		//TODO: Find some way of bypassing this when reloading the config from file
+		/* Configuration cannot be changed while running.
 		try {
 			config.save(configFile);
 		} catch (IOException e) {
 			logger.severe("Config file could not be saved");
 		}
-		
+		*/
 		//TODO: call other modules to save their data
 		
 		logger.info("Goodnight");

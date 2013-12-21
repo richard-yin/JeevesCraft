@@ -70,14 +70,16 @@ public class RecipeBook {
 		}
 		
 		//RESERVED FOR PACKED ICE RECIPE
-		/*if(config.getBoolean("Recipe.PackedIce")){
-			ShapelessRecipe PackedIce = new ShapelessRecipe(new ItemStack(Material.ICE));
+		if(config.getBoolean("Recipe.Ice")){
+			ShapelessRecipe PackedIce = new ShapelessRecipe(new ItemStack(Material.PACKED_ICE));
 			PackedIce.addIngredient(4, Material.SNOW_BLOCK);
 			server.addRecipe(PackedIce);
-		}*/
+			logger.info("Added recipe: Packed Ice");
+		}
+		
 		
 		if(config.getBoolean("Recipe.Sponge")){
-			//Four of any huge mushroom block
+			/*//Four of any huge mushroom block
 			//Two types of huge mushroom blocks, so we need to add all recipes...
 			//4:0
 			ShapelessRecipe sponge = new ShapelessRecipe(new ItemStack(Material.SPONGE));
@@ -105,16 +107,17 @@ public class RecipeBook {
 			server.addRecipe(sponge);
 			
 			//logger.info("Added recipe: Sponge (5)");
+			*/
 			
 			//TODO: Mushroom blocks are weird. The above recipies for some reason do not work.
-			//Added test recipe below that does work.
+			//Added test recipe below that does work. Will change in future update
 			ShapedRecipe sponge2 = new ShapedRecipe(new ItemStack(Material.SPONGE));
 			sponge2.shape(" S ","SCS"," S ");
 			sponge2.setIngredient('S',Material.SAND);
 			sponge2.setIngredient('C', Material.CACTUS);
 			server.addRecipe(sponge2);
 			
-			logger.info("[TEST] Added recipe: Sponge");
+			logger.info("[TEST] Added recipe: Spongen");
 		}
 	}
 }
