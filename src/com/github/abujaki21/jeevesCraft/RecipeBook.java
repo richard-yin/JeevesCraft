@@ -77,11 +77,10 @@ public class RecipeBook {
 			logger.info("Added recipe: Packed Ice");
 		}
 		
-		
 		if(config.getBoolean("Recipe.Sponge")){
 			/*//Four of any huge mushroom block
 			//Two types of huge mushroom blocks, so we need to add all recipes...
-			//4:0
+			/*4:0
 			ShapelessRecipe sponge = new ShapelessRecipe(new ItemStack(Material.SPONGE));
 			sponge.addIngredient(4, Material.HUGE_MUSHROOM_1);
 			server.addRecipe(sponge);
@@ -108,7 +107,7 @@ public class RecipeBook {
 			
 			//logger.info("Added recipe: Sponge (5)");
 			*/
-			
+
 			//TODO: Mushroom blocks are weird. The above recipies for some reason do not work.
 			//Added test recipe below that does work. Will change in future update
 			ShapedRecipe sponge2 = new ShapedRecipe(new ItemStack(Material.SPONGE));
