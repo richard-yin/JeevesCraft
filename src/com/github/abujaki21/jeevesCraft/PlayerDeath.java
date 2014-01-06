@@ -2,7 +2,6 @@ package com.github.abujaki21.jeevesCraft;
 
 import org.bukkit.Material;
 import org.bukkit.SkullType;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,7 +18,9 @@ public class PlayerDeath implements Listener{
 
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event){
-		if(event.getEntityType() == EntityType.PLAYER){
+		if((event.getEntity() instanceof Player) &&
+		(event.getEntity().getKiller() instanceof Player)){
+
 			Player dead = event.getEntity().getPlayer();
 			//Pry the skull from their head
 			ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short)SkullType.PLAYER.ordinal());
