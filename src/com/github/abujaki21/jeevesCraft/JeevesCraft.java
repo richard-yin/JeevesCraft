@@ -20,6 +20,9 @@ package com.github.abujaki21.jeevesCraft;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
+
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.event.Listener;
@@ -44,16 +47,7 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 			saveDefaultConfig();
 		}
 
-		//--Load configuration file
-		try {
-			config = new YamlConfiguration();
-			config.load(configFile);
-		} catch (InvalidConfigurationException e) { //Bad configuration
-			logger.severe("Config file is broken. Restoring defaults...");
-			saveDefaultConfig();
-		} catch (IOException e){ //Issues with opening the file
-			logger.severe("Unable to read the config file, Using defaults");
-		}
+		loadConfiguration();
 
 		//Load recipes from recipe book
 		logger.info("Loading Recipes...");
@@ -68,19 +62,44 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 
 	@Override
 	public void onDisable(){
-		//Try to save the config file
+		saveConfiguration();
 		
-		//TODO: Remove commenting when the config can be edited hot
-		//TODO: Find some way of bypassing this when reloading the config from file
-		/* Configuration cannot be changed while running.
+		logger.info("Goodnight");
+	}
+
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
+		if((cmd.getName().equalsIgnoreCase("loadConfig") && sender.isOp())){
+			loadConfiguration();
+		}
+		else if(cmd.getName().equalsIgnoreCase("saveConfig")){
+			saveConfiguration();
+		}
+		return false;
+	}
+
+	private void loadConfiguration(){
+		//--Load configuration file
 		try {
+			config = new YamlConfiguration();
+			config.load(configFile);
+		} catch (InvalidConfigurationException e) { //Bad configuration
+			logger.severe("Config file is broken. Restoring defaults...");
+			saveDefaultConfig();
+		} catch (IOException e){ //Issues with opening the file
+			logger.severe("Unable to read the config file, Using defaults");
+		}
+	}
+
+	private void saveConfiguration(){
+		//Try to save the config file
+		// Configuration cannot be changed while running.
+		try {
+			//Copy over any new values (plugin update, omitted, etc)
+			config.options().copyDefaults(true);
+			//Save values in memory
 			config.save(configFile);
 		} catch (IOException e) {
 			logger.severe("Config file could not be saved");
 		}
-		*/
-		//TODO: call other modules to save their data
-		
-		logger.info("Goodnight");
 	}
 }

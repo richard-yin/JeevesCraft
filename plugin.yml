@@ -4,3 +4,18 @@ version: 3.0
 description: A collection of fixes used for the Jeeves server
 author: abujaki21
 website: https://github.com/abujaki21/jeevescraft
+commands:
+  loadconfig:
+    description: Moderator command to load the configuration from file
+    permission: JeevesCraft.config
+    permission-message: You must be an op to use this command
+    usage: /loadConfig
+    
+  saveconfig:
+    description: Moderator command to save the configuration to file
+    permission: JeevesCraft.config
+    permission-message: You must be an op to use this command
+    usage: /saveConfig
+permissions:
+  JeevesCraft.config:
+    default: op
