@@ -64,6 +64,7 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 		new GiantSpawner(this);
 		new SpongeMech(this);
 		new PlayerDeath(this);
+		new SnowPistons(this);
 	}
 
 	@Override
