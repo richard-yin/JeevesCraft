@@ -26,7 +26,7 @@ public class SnowPistons implements Listener {
 			int x = endBlock.getX();
 			int y = endBlock.getY();
 			int z = endBlock.getZ();
-			snowBlock.getWorld().dropItem(new Location(snowBlock.getWorld(), x, y, z), new ItemStack(Material.SNOW_BALL, 1));
+			snowBlock.getWorld().dropItem(new Location(snowBlock.getWorld(), x+0.5, y+0.5, z+0.5), new ItemStack(Material.SNOW_BALL, 1));
 		}
 	}
 }
