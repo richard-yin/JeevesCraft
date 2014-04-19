@@ -20,12 +20,14 @@ public class SnowPistons implements Listener {
 	@EventHandler
 	public void onSnowCoverPushed(BlockPistonExtendEvent event) {
 		int i = event.getBlocks().size(); //number of blocks pushed
-		Block snowBlock = event.getBlock().getRelative(event.getDirection(), i+1);
-		Block endBlock = event.getBlock().getRelative(event.getDirection(), i+2);
+		Block snowBlock = event.getBlock().getRelative(event.getDirection(), i+1);//block with snow in it
+		Block endBlock = event.getBlock().getRelative(event.getDirection(), i+2);//block where snowball ends up
 		if(snowBlock.getType() == Material.SNOW) {
-			int x = endBlock.getX();
+			int x = endBlock.getX(); //coords of end block
 			int y = endBlock.getY();
 			int z = endBlock.getZ();
+			
+			//drop item at coords
 			snowBlock.getWorld().dropItem(new Location(snowBlock.getWorld(), x+0.5, y+0.5, z+0.5), new ItemStack(Material.SNOW_BALL, 1));
 		}
 	}
