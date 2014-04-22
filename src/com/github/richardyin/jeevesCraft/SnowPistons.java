@@ -1,3 +1,10 @@
+/**
+ * Plugin: JeevesCraft
+ * Author: Richard Yin
+ * 
+ * Causes snow cover to drop snowballs when pushed with a piston.
+ */
+
 package com.github.richardyin.jeevesCraft;
 
 import java.util.logging.Logger;

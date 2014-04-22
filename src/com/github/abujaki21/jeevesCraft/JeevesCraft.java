@@ -27,7 +27,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.Server;
 
-import com.github.richardyin.jeevesCraft.SnowPistons;
+import com.github.richardyin.jeevesCraft.*;
 
 public final class JeevesCraft extends JavaPlugin implements Listener{
 	private Logger logger;
@@ -68,6 +68,7 @@ public final class JeevesCraft extends JavaPlugin implements Listener{
 		new SpongeMech(this);
 		new PlayerDeath(this);
 		new SnowPistons(this);
+		new EnchantBottles(this);
 	}
 
 	@Override
