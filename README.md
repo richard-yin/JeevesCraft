@@ -1,6 +1,7 @@
 This plugin was originally designed to be a series of patches for the Jeeves
 minecraft server I frequent.
 
+Due to a series of events regarding the 1.8 update, in the bukkit team being halved due to a copyright cease and desist, microsoft purchasing the code, and 1.8 making much of this code redundant; the project may be left to die.
 
 Current Version: 3.0
 + Added sponge recipe [Placeholder]
